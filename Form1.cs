@@ -24,6 +24,12 @@ namespace TorrconEmulator
 		{
 			connectButton.Enabled = true;
 			disconnectButton.Enabled = false;
+			populateComPortMenu();
+		}
+
+		private void SetPressLabel()
+		{
+			pressLabel.Text = GetSliderValue().ToString() + " Torr";
 		}
 
 		private int GetSliderValue()
@@ -31,15 +37,48 @@ namespace TorrconEmulator
 			return pressSlider.Value;
 		}
 
+		private string GetDropdownValue()
+		{
+			if(COMPortDropdown.SelectedItem != null)
+				return COMPortDropdown.SelectedItem.ToString();
+			else
+				return "";
+		}
+
+		private void SetButtonStates(bool connected)
+		{
+			if(connected)
+			{
+				connectButton.Enabled = false;
+				disconnectButton.Enabled = true;
+				connectButton.BackColor = Color.LightGreen;
+				disconnectButton.BackColor = Color.White;
+			}
+			else
+			{
+				connectButton.Enabled = true;
+				disconnectButton.Enabled = false;
+				disconnectButton.BackColor = Color.Red;
+				connectButton.BackColor = Color.White;
+			}
+
+		}
+
 		private void communicate()
 		{
-			var s = new SerialPort("COM2", 9600);
-			s.Open();
+			string portName = (string)COMPortDropdown.Invoke(new Func<string>(() => GetDropdownValue()));
+			if(portName == "")
+			{
+				connectButton.Invoke(new Action(() => SetButtonStates(false)));
+				return;
+			}
+			SerialPort port = new SerialPort(portName, 9600);
+			port.Open();
 			byte[] buffer = new byte[1024];
 			string recd, msg;
 			while(!disconnectClicked)
 			{
-				var str = s.Read(buffer, 0, 2);
+				var str = port.Read(buffer, 0, 2);
 				recd = Encoding.Default.GetString(buffer);
 				Console.WriteLine(recd);
 				if(recd.Contains("*p"))
@@ -59,17 +98,16 @@ namespace TorrconEmulator
 				{
 					msg = "error";
 				}
-				s.WriteLine(msg);
+				port.WriteLine(msg);
 				Console.WriteLine(msg);
 			}
 			disconnectClicked = false;
-			s.Close();
+			port.Close();
 		}
 
 		private void connectButton_Click(object sender, EventArgs e)
 		{
-			connectButton.Enabled = false;
-			disconnectButton.Enabled = true;
+			SetButtonStates(true);
 
 			comThread = new System.Threading.Thread(() => communicate());
 			comThread.Start();
@@ -77,9 +115,22 @@ namespace TorrconEmulator
 
 		private void disconnectButton_Click(object sender, EventArgs e)
 		{
-			connectButton.Enabled = true;
-			disconnectButton.Enabled = false;
+			SetButtonStates(false);
 			disconnectClicked = true;
+		}
+
+		private void populateComPortMenu()
+		{
+			COMPortDropdown.Items.AddRange(
+			        System.IO.Ports.SerialPort.GetPortNames()
+			            .OrderBy(s => s)
+			            .Distinct()
+			            .ToArray());
+		}
+
+		private void pressSlider_Scroll(object sender, EventArgs e)
+		{
+			SetPressLabel();
 		}
 	}
 }
