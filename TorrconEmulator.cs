@@ -6,16 +6,20 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TorrconEmulator
 {
-	public partial class Form1 : Form
+	public partial class TorrconEmulator : Form
 	{
+		SerialPort port;
         System.Threading.Thread comThread;
 		bool disconnectClicked = false;
-		public Form1()
+		double pressValue;
+
+		public TorrconEmulator()
 		{
 			InitializeComponent();
 		}
@@ -25,11 +29,13 @@ namespace TorrconEmulator
 			connectButton.Enabled = true;
 			disconnectButton.Enabled = false;
 			populateComPortMenu();
+			SetPressLabel();
+			pressValue = GetSliderValue();
 		}
 
 		private void SetPressLabel()
 		{
-			pressLabel.Text = GetSliderValue().ToString() + " Torr";
+			pressLabel.Text = pressValue.ToString() + " Torr";
 		}
 
 		private int GetSliderValue()
@@ -72,34 +78,46 @@ namespace TorrconEmulator
 				connectButton.Invoke(new Action(() => SetButtonStates(false)));
 				return;
 			}
-			SerialPort port = new SerialPort(portName, 9600);
+			port = new SerialPort(portName, 9600);
 			port.Open();
-			byte[] buffer = new byte[1024];
+			byte[] buffer;
 			string recd, msg;
 			while(!disconnectClicked)
 			{
-				var str = port.Read(buffer, 0, 2);
-				recd = Encoding.Default.GetString(buffer);
-				Console.WriteLine(recd);
-				if(recd.Contains("*p"))
+				int count = port.BytesToRead;
+				if(count >= 2)
 				{
-					int sliderVal = 0;
-					sliderVal = (int)pressSlider.Invoke(new Func<int>(() => GetSliderValue()));
-					msg = "p1 " + sliderVal.ToString() + ":p2 0.0";
-				}
-				else if(recd.Contains("*v"))
-				{
-					int sliderVal = 0;
-					sliderVal = (int)pressSlider.Invoke(new Func<int>(() => GetSliderValue()));
-					sliderVal /= 76;
-					msg = "p1 " + sliderVal.ToString() + ":p2 0.0";
+					buffer = new byte[count];
+					var str = port.Read(buffer, 0, count);
+					recd = Encoding.Default.GetString(buffer);
+					Console.WriteLine(recd);
+					if(recd.Contains("*p"))
+					{
+						int sliderVal = 0;
+						//sliderVal = (int)pressSlider.Invoke(new Func<int>(() => GetSliderValue()));
+						sliderVal = (int)pressValue;
+						msg = "p1 " + sliderVal.ToString() + ":p2 0.0";
+					}
+					else if(recd.Contains("*v"))
+					{
+						int sliderVal = 0;
+						//sliderVal = (int)pressSlider.Invoke(new Func<int>(() => GetSliderValue()));
+						sliderVal = (int)pressValue;
+						sliderVal /= 76;
+						msg = "p1 " + sliderVal.ToString() + ":p2 0.0";
+					}
+					else
+					{
+						msg = "error";
+					}
+					port.WriteLine(msg);
+					Console.WriteLine(msg);
 				}
 				else
 				{
-					msg = "error";
+					Console.WriteLine("here");
+					Thread.Sleep(100);
 				}
-				port.WriteLine(msg);
-				Console.WriteLine(msg);
 			}
 			disconnectClicked = false;
 			port.Close();
@@ -109,7 +127,7 @@ namespace TorrconEmulator
 		{
 			SetButtonStates(true);
 
-			comThread = new System.Threading.Thread(() => communicate());
+			comThread = new Thread(() => communicate());
 			comThread.Start();
 		}
 
@@ -130,7 +148,26 @@ namespace TorrconEmulator
 
 		private void pressSlider_Scroll(object sender, EventArgs e)
 		{
+			pressValue = GetSliderValue();
 			SetPressLabel();
+		}
+
+		private void SetButton_Click(object sender, EventArgs e)
+		{
+			if(Double.TryParse(pressInputBox.Text, out pressValue))
+			{
+				if(pressValue <= pressSlider.Maximum && pressValue >= pressSlider.Minimum)
+				{
+					pressSlider.Value = (int)pressValue;
+				}
+				SetPressLabel();
+			}
+		}
+
+		private void TorrconEmulator_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			disconnectClicked = true;
+			comThread.Join();
 		}
 	}
 }

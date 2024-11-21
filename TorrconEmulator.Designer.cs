@@ -1,6 +1,6 @@
 ﻿namespace TorrconEmulator
 {
-	partial class Form1
+	partial class TorrconEmulator
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -34,22 +34,24 @@
 			this.disconnectButton = new System.Windows.Forms.Button();
 			this.COMPortDropdown = new System.Windows.Forms.ComboBox();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.panel6 = new System.Windows.Forms.Panel();
+			this.pressLabel = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.panel3 = new System.Windows.Forms.Panel();
-			this.panel4 = new System.Windows.Forms.Panel();
-			this.panel5 = new System.Windows.Forms.Panel();
-			this.panel6 = new System.Windows.Forms.Panel();
-			this.panel7 = new System.Windows.Forms.Panel();
-			this.panel8 = new System.Windows.Forms.Panel();
-			this.panel9 = new System.Windows.Forms.Panel();
+			this.SetButton = new System.Windows.Forms.Button();
+			this.pressInputBox = new System.Windows.Forms.TextBox();
 			this.panel10 = new System.Windows.Forms.Panel();
 			this.panel11 = new System.Windows.Forms.Panel();
-			this.pressLabel = new System.Windows.Forms.Label();
+			this.panel9 = new System.Windows.Forms.Panel();
+			this.panel8 = new System.Windows.Forms.Panel();
+			this.panel7 = new System.Windows.Forms.Panel();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.panel5 = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this.pressSlider)).BeginInit();
 			this.panel2.SuspendLayout();
+			this.panel6.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.panel3.SuspendLayout();
-			this.panel6.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pressSlider
@@ -78,7 +80,7 @@
 			// connectButton
 			// 
 			this.connectButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.connectButton.Location = new System.Drawing.Point(59, 105);
+			this.connectButton.Location = new System.Drawing.Point(59, 182);
 			this.connectButton.Name = "connectButton";
 			this.connectButton.Size = new System.Drawing.Size(169, 53);
 			this.connectButton.TabIndex = 2;
@@ -90,7 +92,7 @@
 			// 
 			this.disconnectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.disconnectButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.disconnectButton.Location = new System.Drawing.Point(460, 105);
+			this.disconnectButton.Location = new System.Drawing.Point(460, 182);
 			this.disconnectButton.Name = "disconnectButton";
 			this.disconnectButton.Size = new System.Drawing.Size(179, 53);
 			this.disconnectButton.TabIndex = 3;
@@ -105,7 +107,7 @@
 			this.COMPortDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.COMPortDropdown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.COMPortDropdown.FormattingEnabled = true;
-			this.COMPortDropdown.Location = new System.Drawing.Point(284, 114);
+			this.COMPortDropdown.Location = new System.Drawing.Point(284, 191);
 			this.COMPortDropdown.Name = "COMPortDropdown";
 			this.COMPortDropdown.Size = new System.Drawing.Size(121, 37);
 			this.COMPortDropdown.TabIndex = 4;
@@ -121,6 +123,25 @@
 			this.panel2.Size = new System.Drawing.Size(614, 300);
 			this.panel2.TabIndex = 6;
 			// 
+			// panel6
+			// 
+			this.panel6.BackColor = System.Drawing.Color.Gainsboro;
+			this.panel6.Controls.Add(this.pressLabel);
+			this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel6.Location = new System.Drawing.Point(10, 10);
+			this.panel6.Name = "panel6";
+			this.panel6.Size = new System.Drawing.Size(594, 280);
+			this.panel6.TabIndex = 0;
+			// 
+			// pressLabel
+			// 
+			this.pressLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.pressLabel.Location = new System.Drawing.Point(3, 0);
+			this.pressLabel.Name = "pressLabel";
+			this.pressLabel.Size = new System.Drawing.Size(588, 280);
+			this.pressLabel.TabIndex = 0;
+			this.pressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// panel1
 			// 
 			this.panel1.Controls.Add(this.headerLabel);
@@ -132,6 +153,8 @@
 			// 
 			// panel3
 			// 
+			this.panel3.Controls.Add(this.SetButton);
+			this.panel3.Controls.Add(this.pressInputBox);
 			this.panel3.Controls.Add(this.panel10);
 			this.panel3.Controls.Add(this.panel11);
 			this.panel3.Controls.Add(this.panel9);
@@ -147,57 +170,24 @@
 			this.panel3.Size = new System.Drawing.Size(712, 609);
 			this.panel3.TabIndex = 8;
 			// 
-			// panel4
+			// SetButton
 			// 
-			this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel4.Location = new System.Drawing.Point(663, 53);
-			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(49, 300);
-			this.panel4.TabIndex = 9;
+			this.SetButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.SetButton.Location = new System.Drawing.Point(369, 105);
+			this.SetButton.Name = "SetButton";
+			this.SetButton.Size = new System.Drawing.Size(97, 39);
+			this.SetButton.TabIndex = 10;
+			this.SetButton.Text = "Set";
+			this.SetButton.UseVisualStyleBackColor = true;
+			this.SetButton.Click += new System.EventHandler(this.SetButton_Click);
 			// 
-			// panel5
+			// pressInputBox
 			// 
-			this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
-			this.panel5.Location = new System.Drawing.Point(0, 53);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(49, 300);
-			this.panel5.TabIndex = 10;
-			// 
-			// panel6
-			// 
-			this.panel6.BackColor = System.Drawing.Color.Gainsboro;
-			this.panel6.Controls.Add(this.pressLabel);
-			this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel6.Location = new System.Drawing.Point(10, 10);
-			this.panel6.Name = "panel6";
-			this.panel6.Size = new System.Drawing.Size(594, 280);
-			this.panel6.TabIndex = 0;
-			// 
-			// panel7
-			// 
-			this.panel7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.panel7.BackColor = System.Drawing.Color.Silver;
-			this.panel7.Location = new System.Drawing.Point(561, 472);
-			this.panel7.Name = "panel7";
-			this.panel7.Size = new System.Drawing.Size(124, 136);
-			this.panel7.TabIndex = 5;
-			// 
-			// panel8
-			// 
-			this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.panel8.BackColor = System.Drawing.Color.Black;
-			this.panel8.Location = new System.Drawing.Point(36, 530);
-			this.panel8.Name = "panel8";
-			this.panel8.Size = new System.Drawing.Size(497, 76);
-			this.panel8.TabIndex = 6;
-			// 
-			// panel9
-			// 
-			this.panel9.BackColor = System.Drawing.Color.DarkKhaki;
-			this.panel9.Location = new System.Drawing.Point(36, 472);
-			this.panel9.Name = "panel9";
-			this.panel9.Size = new System.Drawing.Size(156, 52);
-			this.panel9.TabIndex = 7;
+			this.pressInputBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.pressInputBox.Location = new System.Drawing.Point(187, 105);
+			this.pressInputBox.Name = "pressInputBox";
+			this.pressInputBox.Size = new System.Drawing.Size(150, 39);
+			this.pressInputBox.TabIndex = 9;
 			// 
 			// panel10
 			// 
@@ -215,16 +205,49 @@
 			this.panel11.Size = new System.Drawing.Size(151, 52);
 			this.panel11.TabIndex = 8;
 			// 
-			// pressLabel
+			// panel9
 			// 
-			this.pressLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.pressLabel.Location = new System.Drawing.Point(3, 0);
-			this.pressLabel.Name = "pressLabel";
-			this.pressLabel.Size = new System.Drawing.Size(588, 280);
-			this.pressLabel.TabIndex = 0;
-			this.pressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.panel9.BackColor = System.Drawing.Color.DarkKhaki;
+			this.panel9.Location = new System.Drawing.Point(36, 472);
+			this.panel9.Name = "panel9";
+			this.panel9.Size = new System.Drawing.Size(156, 52);
+			this.panel9.TabIndex = 7;
 			// 
-			// Form1
+			// panel8
+			// 
+			this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.panel8.BackColor = System.Drawing.Color.Black;
+			this.panel8.Location = new System.Drawing.Point(36, 530);
+			this.panel8.Name = "panel8";
+			this.panel8.Size = new System.Drawing.Size(497, 76);
+			this.panel8.TabIndex = 6;
+			// 
+			// panel7
+			// 
+			this.panel7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel7.BackColor = System.Drawing.Color.Silver;
+			this.panel7.Location = new System.Drawing.Point(561, 472);
+			this.panel7.Name = "panel7";
+			this.panel7.Size = new System.Drawing.Size(124, 136);
+			this.panel7.TabIndex = 5;
+			// 
+			// panel4
+			// 
+			this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
+			this.panel4.Location = new System.Drawing.Point(663, 53);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(49, 300);
+			this.panel4.TabIndex = 9;
+			// 
+			// panel5
+			// 
+			this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
+			this.panel5.Location = new System.Drawing.Point(0, 53);
+			this.panel5.Name = "panel5";
+			this.panel5.Size = new System.Drawing.Size(49, 300);
+			this.panel5.TabIndex = 10;
+			// 
+			// TorrconEmulator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -235,16 +258,16 @@
 			this.Controls.Add(this.panel4);
 			this.Controls.Add(this.panel3);
 			this.Controls.Add(this.panel1);
-			this.Name = "Form1";
-			this.Text = "Form1";
+			this.Name = "TorrconEmulator";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TorrconEmulator_FormClosed);
 			this.Load += new System.EventHandler(this.Form1_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pressSlider)).EndInit();
 			this.panel2.ResumeLayout(false);
+			this.panel6.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();
-			this.panel6.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -268,6 +291,8 @@
 		private System.Windows.Forms.Panel panel10;
 		private System.Windows.Forms.Panel panel11;
 		private System.Windows.Forms.Panel panel9;
+		private System.Windows.Forms.Button SetButton;
+		private System.Windows.Forms.TextBox pressInputBox;
 	}
 }
 
