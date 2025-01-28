@@ -95,8 +95,8 @@ namespace TorrconEmulator
 					{
 						int sliderVal = 0;
 						//sliderVal = (int)pressSlider.Invoke(new Func<int>(() => GetSliderValue()));
-						sliderVal = (int)pressValue;
-						msg = "p1 " + sliderVal.ToString() + ":p2 0.0";
+						//sliderVal = (int)pressValue;
+						msg = "p1 " + pressValue.ToString() + ":p2 0.0";
 					}
 					else if(recd.Contains("*v"))
 					{
@@ -167,7 +167,7 @@ namespace TorrconEmulator
 		private void TorrconEmulator_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			disconnectClicked = true;
-			comThread.Join();
+			if(comThread != null)  comThread.Join();
 		}
 	}
 }
