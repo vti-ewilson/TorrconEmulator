@@ -17,11 +17,12 @@ namespace TorrconEmulator
 		SerialPort port;
         System.Threading.Thread comThread;
 		bool disconnectClicked = false;
-		double pressValue;
+		double[] pressValues;
 
 		public TorrconEmulator()
 		{
 			InitializeComponent();
+			pressValues = new double[2];
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -30,12 +31,14 @@ namespace TorrconEmulator
 			disconnectButton.Enabled = false;
 			populateComPortMenu();
 			SetPressLabel();
-			pressValue = GetSliderValue();
+			pressValues[0] = GetSliderValue();
+			pressValues[1] = GetSliderValue();
 		}
 
 		private void SetPressLabel()
 		{
-			pressLabel.Text = pressValue.ToString() + " Torr";
+			pressLabel.Text = pressValues[0].ToString() + " Torr";
+			pressLabel2.Text = pressValues[1].ToString() + " Torr";
 		}
 
 		private int GetSliderValue()
@@ -93,18 +96,15 @@ namespace TorrconEmulator
 					Console.WriteLine(recd);
 					if(recd.Contains("*p"))
 					{
-						int sliderVal = 0;
-						//sliderVal = (int)pressSlider.Invoke(new Func<int>(() => GetSliderValue()));
-						//sliderVal = (int)pressValue;
-						msg = "p1 " + pressValue.ToString() + ":p2 0.0";
+						msg = "p1 " + pressValues[0].ToString() + ":p2 " + pressValues[1].ToString();
 					}
 					else if(recd.Contains("*v"))
 					{
-						int sliderVal = 0;
-						//sliderVal = (int)pressSlider.Invoke(new Func<int>(() => GetSliderValue()));
-						sliderVal = (int)pressValue;
-						sliderVal /= 76;
-						msg = "p1 " + sliderVal.ToString() + ":p2 0.0";
+						double sliderVal = 0;
+						sliderVal = pressValues[0] / 76;
+						double sliderVal2 = 0;
+						sliderVal2 = pressValues[1] / 76;
+						msg = "p1 " + sliderVal.ToString() + ":p2 " + sliderVal2.ToString();
 					}
 					else
 					{
@@ -148,17 +148,17 @@ namespace TorrconEmulator
 
 		private void pressSlider_Scroll(object sender, EventArgs e)
 		{
-			pressValue = GetSliderValue();
+			pressValues[gaugeTabControl.SelectedIndex] = GetSliderValue();
 			SetPressLabel();
 		}
 
 		private void SetButton_Click(object sender, EventArgs e)
 		{
-			if(Double.TryParse(pressInputBox.Text, out pressValue))
+			if(Double.TryParse(pressInputBox.Text, out pressValues[gaugeTabControl.SelectedIndex]))
 			{
-				if(pressValue <= pressSlider.Maximum && pressValue >= pressSlider.Minimum)
+				if(pressValues[gaugeTabControl.SelectedIndex] <= pressSlider.Maximum && pressValues[gaugeTabControl.SelectedIndex] >= pressSlider.Minimum)
 				{
-					pressSlider.Value = (int)pressValue;
+					pressSlider.Value = (int)pressValues[gaugeTabControl.SelectedIndex];
 				}
 				SetPressLabel();
 			}
@@ -167,7 +167,12 @@ namespace TorrconEmulator
 		private void TorrconEmulator_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			disconnectClicked = true;
-			if(comThread != null)  comThread.Join();
+			if(comThread != null) comThread.Join();
+		}
+
+		private void gaugeTabControl_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			pressSlider.Value = (int)pressValues[gaugeTabControl.SelectedIndex];
 		}
 	}
 }
