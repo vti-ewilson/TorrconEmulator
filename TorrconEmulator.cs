@@ -106,6 +106,10 @@ namespace TorrconEmulator
 						sliderVal2 = pressValues[1] / 76;
 						msg = "p1 " + sliderVal.ToString() + ":p2 " + sliderVal2.ToString();
 					}
+					else if(recd.Contains("p"))
+					{
+						msg = pressValues[0].ToString();
+					}
 					else
 					{
 						msg = "error";
