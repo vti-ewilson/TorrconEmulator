@@ -94,11 +94,27 @@ namespace TorrconEmulator
 					var str = port.Read(buffer, 0, count);
 					recd = Encoding.Default.GetString(buffer);
 					Console.WriteLine(recd);
-					if(recd.Contains("*p"))
+					if (recd.Contains("*p1"))
+					{
+                        msg = pressValues[0].ToString();
+                    }
+                    else if (recd.Contains("*p2"))
+                    {
+                        msg = pressValues[1].ToString();
+                    }
+                    else if (recd.Contains("*v1"))
+                    {
+                        msg = (pressValues[0]/76).ToString();
+                    }
+                    else if (recd.Contains("*v2"))
+                    {
+                        msg = (pressValues[1]/76).ToString();
+                    }
+                    else if (recd.Contains("*p"))
 					{
 						msg = "p1 " + pressValues[0].ToString() + ":p2 " + pressValues[1].ToString();
 					}
-					else if(recd.Contains("*v"))
+					else if (recd.Contains("*v"))
 					{
 						double sliderVal = 0;
 						sliderVal = pressValues[0] / 76;
@@ -106,7 +122,7 @@ namespace TorrconEmulator
 						sliderVal2 = pressValues[1] / 76;
 						msg = "p1 " + sliderVal.ToString() + ":p2 " + sliderVal2.ToString();
 					}
-					else if(recd.Contains("p"))
+					else if (recd.Contains("p"))
 					{
 						msg = pressValues[0].ToString();
 					}
